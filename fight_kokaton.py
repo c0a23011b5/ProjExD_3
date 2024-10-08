@@ -98,7 +98,7 @@ class Beam:
         self.rct = self.img.get_rect()  # ビームSurfaceのRectを抽出
         self.rct.centery = bird.rct.centery  # こうかとんの中心縦座標をビームの縦座標
         self.rct.left = bird.rct.right  # こうかとんの右座標をビームの左座標
-        self.vx, self.vy = +5, 0
+        self.vx, self.vy = +5, 0  # ビームの速度ベクトル
 
     def update(self, screen: pg.Surface):
         """
