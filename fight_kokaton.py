@@ -141,6 +141,33 @@ class Bomb:
         screen.blit(self.img, self.rct)
 
 
+class Score:
+    """
+    スコアに関するクラス
+    """
+    def __init__(self):
+        self.score = 0
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.color = (0, 0, 255)
+        self.img = self.fonto.render(f"Score: {self.score}", 0, self.color) 
+        self.rct = self.img.get_rect()
+        self.rct.bottomleft = (100, HEIGHT - 50)  
+
+    def update(self, screen: pg.Surface):
+        """
+        スコアを更新し、表示する
+        引数 screen: 画面Surface
+        """
+        self.img = self.fonto.render(f"Score: {self.score}", 0, self.color)  
+        screen.blit(self.img, self.rct)  
+
+    def add_score(self, points: int):
+        """
+        スコアを加算する
+        引数 points: 加算するスコア
+        """
+        self.score += points
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
@@ -149,6 +176,8 @@ def main():
     beam = None
     bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
+    score = Score()
+
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -165,8 +194,12 @@ def main():
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
                 bird.change_img(8, screen)
                 pg.display.update()
-                time.sleep(1)
+                score.score += 1
+                score.update()
+                time.sleep(5)
                 return
+            
+        
         
         for j, bomb in enumerate(bombs):
             if beam is not None:
@@ -185,6 +218,14 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+
+
+    
+        
+
+
+
+
 
 
 if __name__ == "__main__":
